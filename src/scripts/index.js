@@ -67,36 +67,45 @@ function renderAlbumCards(products) {
 }
 
 function addEventListeners(categories, products) {
-const buttons = filterButtonsList.querySelectorAll('.btn__category');
-const selectedCategories = [];
+    const buttons = filterButtonsList.querySelectorAll('.btn__category');
 
     buttons.forEach((button) => {
         button.addEventListener('click', () => {
+            if (button.classList.contains('btn__category-active')) {
+            return;
+            }
+        buttons.forEach((otherButton) => {
+            if (otherButton !== button) {
+                otherButton.classList.remove('btn__category-active');
+            }
+        });
+        button.classList.add('btn__category-active');
         categoryIndex = categories.findIndex((category) => category === button.innerText);
-        const categoryAlreadySelected = selectedCategories.includes(categoryIndex);
-
-        if (categoryAlreadySelected) {
-            const categoryIndexToRemove = selectedCategories.indexOf(categoryIndex);
-            selectedCategories.splice(categoryIndexToRemove, 1);
-
-            button.classList.toggle('btn__category-active');
-        } else {
-            selectedCategories.push(categoryIndex);
-            button.classList.toggle('btn__category-active');
-        }
 
         if (categoryIndex === 0) {
             filteredArray = products.filter((product) => product.price <= inputValue);
         } else {
             filteredArray = products.filter(
             (product) => product.category === categoryIndex && product.price <= inputValue
-        );
-    }
-
+            );
+        }
         albumCardsList.innerHTML = '';
         renderAlbumCards(filteredArray);
+        });
     });
-});
+    input.addEventListener('input', () => {
+        inputValue = input.value;
+        priceText.textContent = `Até R$ ${inputValue}`;
+        if (categoryIndex === 0) {
+            filteredArray = products.filter((product) => product.price <= inputValue);
+        } else {
+        filteredArray = products.filter(
+            (product) => product.category === categoryIndex && product.price <= inputValue
+        );
+    }
+        albumCardsList.innerHTML = '';
+        renderAlbumCards(filteredArray);    });
+}
 
     input.addEventListener('input', () => {
         inputValue = input.value;
@@ -112,7 +121,6 @@ const selectedCategories = [];
     albumCardsList.innerHTML = '';
     renderAlbumCards(filteredArray);
     });
-}
 
 function filterProductsByCategories(products, selectedCategories) {
     if (selectedCategories.length === 0) {
