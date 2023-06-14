@@ -9,9 +9,9 @@ const theme = ()=>{
     html.classList.toggle('darkmode')
     const local = localStorage.setItem('darkMode', JSON.stringify(dark))
     if(dark){
-        img.src = '../src/assets/img/sol.png'
+        img.src = '../assets/img/sol.png'
     }else {
-        img.src = '../src/assets/img/moon.svg'
+        img.src = '../assets/img/moon.svg'
     }
 }
 
@@ -20,9 +20,9 @@ const analic = ()=>{
     console.log(getStorage)
     if(getStorage){
         theme()
-        img.src = '../src/assets/img/sol.png'
+        img.src = '../assets/img/sol.png'
     }else{
-        img.src = '../src/assets/img/moon.svg'
+        img.src = '../assets/img/moon.svg'
     }
 }
 btnDark.addEventListener('click', theme)
